@@ -1,0 +1,10 @@
+/*////////////HEADER////////////*/
+
+#header h1 {
+    font: bold #{pem(nth($fSize_title, 1))}/nth($fSize_title, 2) $fFamily_title;
+    text-transform: uppercase;
+    letter-spacing: -0.054em;
+    word-wrap: break-word;
+    // word-break: break-all;
+    hyphens: auto;
+}

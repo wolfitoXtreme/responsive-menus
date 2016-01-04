@@ -1,0 +1,242 @@
+/*////////////FOOTER////////////*/        
+
+
+
+
+/*top*/
+
+/*signature*/
+
+//image
+//backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+//@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+$footerLogoSettings: backgroundImageSettings('logofoot_NoCSS@1x.png', $stretchTo: 60%, $units: 'px');
+$logoFootSprites: 1;
+$logoFootWidth: nth($footerLogoSettings, 2);
+$logoFootHeight: nth($footerLogoSettings, 3) / $logoFootSprites;
+$logoFootBkg_inc: getPercentageFrom($logoFootHeight, nth($footerLogoSettings, 3) - $logoFootHeight);
+$logoFoot_gap: 12px;
+
+#footer #signature {
+
+    $address_fSize: 11px;
+    $signature_height: auto;
+    $signature_padding: ($logoFootHeight + 3px) 0 4px 4px;
+
+    $signature_color: #21241f;
+    
+    padding: $signature_padding;
+    width: auto;
+    height: auto;
+    min-height: $logoFootHeight + nth($signature_padding, 1);
+    color: $signature_color;
+    text-align: left;
+    background: setBkgImage(transparent, nth($footerLogoSettings, 1), 0 0, no-repeat);
+    background-origin: border-box;
+    background-size: $logoFootWidth $logoFootHeight;
+
+
+    @include layoutPaint(#1bdbcb, $forceDebug: true);
+    
+    .row.addressRow {
+        padding: 0 0 2px 0;
+        min-height: $logoFootHeight - nth($signature_padding, 1);
+        width: auto;
+        display: table;
+
+        > strong {
+            @include hide();
+        }
+
+    }
+
+        strong {
+            font: bold #{pem(11px, $address_fSize)}/1.1 $fFamily_default;
+            display: block;
+        }
+    
+        address {
+
+            $address_padding: 0 0 0 0;
+
+            padding: $address_padding;
+            font: normal #{pem($address_fSize)}/1 $fFamily_default;
+            color: lighten($signature_color, 15%);
+            // width: 33.3333%;
+            display: table-cell;
+            position: relative;
+            //float: left;
+            
+        }
+        
+        a:link, a:visited {
+            color: $signature_color;
+            text-decoration: none;
+        }
+        
+        a:hover, a:active {
+            color: nth($linkColor_default, 1);
+            text-decoration: underline;
+        }
+
+
+}
+
+
+/*social networws menu*/
+#footer .socialNetworks {
+    
+    $socialNetworks_padding: 0 0 0 0;
+    
+    //icon
+    //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+    //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+    $iconSettings: backgroundImageSettings('uMenu_snIcons.png', $stretchTo: 60%, $units: 'px');
+    $iconSprites_h: 6;
+    $iconSprites_v: 2;
+    $iconWidth: nth($iconSettings, 2) / $iconSprites_h;
+    $iconHeight: nth($iconSettings, 3) / $iconSprites_v;
+    $iconBkg_hInc: getPercentageFrom($iconWidth, nth($iconSettings, 2) - $iconWidth);
+    $iconBkg_vInc: getPercentageFrom($iconHeight, nth($iconSettings, 3) - $iconHeight);
+ 
+
+    padding: $socialNetworks_padding;
+    width: auto;
+    height: auto;
+    text-align: right;
+    z-index: 20;
+   
+    @include layoutPaint(#6d0cb1);
+
+    h5 {
+        @include hide();
+    }
+    
+    ul {
+        
+        padding: 0;
+        
+        &:after {
+            @include clearFix();
+        }
+        
+        @include layoutPaint(#000fff);
+        
+        li {
+            
+            $local_fSize: $fSize_base;
+            
+            font-size: pem($local_fSize);
+            padding: 0 0 0 5px;
+            float: left;
+            
+            //remove default bullets
+            @include noFontSpaces();
+            
+            &:first-child {
+                padding-left: 0;
+            }    
+        
+        }
+        
+
+
+        //default GitHub
+        a:link, a:visited {
+                       
+            width: $iconWidth;
+            height: $iconHeight;
+            border-radius: $iconWidth / 2;
+            display: block;
+            text-indent: 200%;
+            overflow: hidden;
+            //background: #ffffff url(../img/sn_followicons.png) 0 0 no-repeat;
+            background: setBkgImage(transparent, nth($iconSettings, 1), nth($iconSettings, 4) 0, no-repeat);
+            background-origin: border-box;
+            background-size: (100% * $iconSprites_h) (100% * $iconSprites_v);
+                
+            @include layoutPaint(#00f00f);
+        }
+        
+        a:active, a:hover {
+            background-color: #dfbe43;
+        }
+        
+        //linkedIn
+        .linkedin {
+            
+            $spritePos: ($iconBkg_hInc * 1);
+            
+            a:link, a:visited {
+                background-position: $spritePos 0;
+            }
+            
+            a:hover, a:active {
+                background-position: $spritePos 0;
+            }
+            
+        }
+        
+        //CodePen
+        .codepen {
+            
+            $spritePos: ($iconBkg_hInc * 2);
+            
+            a:link, a:visited {
+                background-position: $spritePos 0;
+            }
+            
+            a:hover, a:active {
+                background-position: $spritePos 0;
+            }
+            
+        }
+
+        //Stack Overflow
+        .stackoverflow {
+            
+            $spritePos: ($iconBkg_hInc * 3);
+            
+            a:link, a:visited {
+                background-position: $spritePos 0;
+            }
+            
+            a:hover, a:active {
+                background-position: $spritePos 0;
+            }
+            
+        }
+
+        //Behance
+        .behance {
+            
+            $spritePos: ($iconBkg_hInc * 4);
+            
+            a:link, a:visited {
+                background-position: $spritePos 0;
+            }
+            
+            a:hover, a:active {
+                background-position: $spritePos 0;
+            }
+            
+        }
+        
+        //resume
+        .resume {
+            
+            $spritePos: ($iconBkg_hInc * 5);
+            
+            a:link, a:visited {
+                background-position: $spritePos 0;
+            }
+            
+            a:hover, a:active {
+                background-position: $spritePos 0;
+            }
+            
+        }
+        
+    }
+    
+}

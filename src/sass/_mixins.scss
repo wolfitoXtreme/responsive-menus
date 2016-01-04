@@ -1,0 +1,293 @@
+////////////////////
+//SASS MIXINS
+////////////////////
+
+// layout paint
+@mixin layoutPaint($bgColor, $opacity: 1, $forceDebug: false) {
+        
+    @if $deploy == false {
+        @if $debug == true or $forceDebug == true {
+
+            background-color: $bgColor;
+            opacity: $opacity;
+            //opacity: 0.8;
+
+        }
+    }
+
+}
+
+// clear fix
+// source/article: Hugo Giraudel, https://css-tricks.com/snippets/sass/extend-wrapper-aka-mixtend/
+@mixin clearFix($extend: true) {
+    @if $extend {
+        @extend %clearFix-placeholder;
+    } @else {
+        content: " ";
+        display: block;
+        clear: both;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;  
+    }
+}
+
+%clearFix-placeholder {
+  @include clearFix($extend: false);
+}
+
+// readable hide
+// source/article: Hugo Giraudel, https://css-tricks.com/snippets/sass/extend-wrapper-aka-mixtend/
+@mixin hide($extend: true) {
+    @if $extend {
+        @extend %hide-placeholder;
+    } @else {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 0;
+        width: 0;
+        // font-size: 0;
+        // line-height: 0;
+        overflow: hidden;
+        visibility: hidden;
+        display: block;
+        position: absolute;
+    }
+}
+
+%hide-placeholder {
+    @include hide($extend: false);
+}
+
+// noFontSpaces
+@mixin noFontSpaces {
+    font-size: 0;
+    line-height: 0;
+}
+
+// button01(click effect, Image, Gradient and Hover Gradient)
+@mixin submitButton01(
+    $padding, $width, $height, $image, $defaultColor, $color01, $color02, $hdefaultColor, $hcolor01, $hcolor02, $stop01, $stop02, $borderRadius, $display, $isButton, $base: $fSize_base
+) {
+    
+    $local_fSize: nth($fSize_button, 1);
+    
+    margin: 0;
+    padding: 
+        pem(nth($padding, 1), $local_fSize)
+        pem(nth($padding, 2), $local_fSize)
+        pem(nth($padding, 3), $local_fSize)
+        pem(nth($padding, 4), $local_fSize)
+    ;
+    width: $width;
+    height: pem($height, $local_fSize);
+    font: normal #{pem($local_fSize, $base)}/nth($fSize_button, 2) $fFamily_button;
+    text-transform: uppercase;
+    color: $button_fColor;
+    text-decoration: none;
+    border-width: 0;
+    border-radius: $borderRadius;
+    outline: none;
+    cursor: pointer;
+    display: $display;
+    position: relative;
+    box-shadow: -1px -1px 0 0 rgba(0, 0, 0, 0.12) inset, 1px 1px 0 0 rgba(255, 255, 255, 0.2) inset; 
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    transform: scale(1);
+    
+    //simpleGradientFill($direction, $defaultColor, $color-stops...)
+    @include simpleGradientFill(0deg, $defaultColor, $color01 $stop01, $color02 $stop02);
+    //transition($property, $duration, $timingFunction, $delay)
+    @include transitionProps(50mx, ease-in, 0ms, (
+        background-color, transform
+    ));
+    
+    
+    span {
+        text-shadow: rgba(0, 0, 0, 0.21) -1px -1px 0;
+        white-space: nowrap;
+        display: $display;
+        overflow: visible;
+        visibility: visible;
+        
+        // @include layoutPaint(#00fcff);
+        
+    }
+
+    &:hover {
+        @include simpleGradientFill(0deg, $hdefaultColor, $hcolor01 $stop01, $hcolor02 $stop02);
+    }
+    
+    &:active {
+
+        transform: scale(0.95);
+        
+        span {
+            outline-style: none;
+        }
+    }
+    
+    &::-moz-focus-inner {
+        padding: 0;
+        border: 0;
+    }
+    
+
+    @if $isButton == false {
+        padding-top: pem(
+            (( $height - (nth($fSize_button, 1) * nth($fSize_button, 2) ) ) / 2),
+            $local_fSize
+        );
+        &:link, &:visited {
+            color: $button_fColor;
+            text-decoration: none;
+        }
+        
+        &:hover {
+            color: $button_fColor;
+        }
+        
+        &:active {
+            color: $button_fColor;
+        }
+        
+        span {
+        }
+        
+    }
+    
+}
+
+// simple gradientFill (linear-gradient and plain color fallback) 
+@mixin simpleGradientFill($direction, $defaultColor, $color-stops...) {
+    background-color: $defaultColor;
+    background-image: linear-gradient($direction, $color-stops);
+}
+
+// transition set of properties
+@mixin transitionProps($duration, $timingFunction, $delay, $properties:all){
+
+    $propsAndTime: ();
+    
+    @each $prop in $properties {
+        $propsAndTime: append($propsAndTime, ($prop $duration $timingFunction $delay), comma);
+    }
+    
+    transition: $propsAndTime;
+}
+
+// keyframes
+@mixin keyframes($animationName) {
+    
+    @keyframes #{$animationName} {
+        @content;
+    }
+
+}
+
+// mediaQueries
+// source/article: Hugo Giraudel, http://www.sitepoint.com/managing-responsive-breakpoints-sass/
+@mixin mediaQuery($name, $push: false) {
+    
+    // If the key exists in the map
+    @if map-has-key($breakpoints, $name) {
+        // Prints a media query based on the value
+        @media #{map-get($breakpoints, $name)} {
+      
+            ##{$name} {
+                visibility: visible;
+                
+                //debug
+                @if $debug == true {
+                    overflow: visible;
+                    display: block;
+                }
+            }
+            
+            @content;
+        }
+    }
+ 
+    // If the key doesn't exist in the map
+    // But $push is defined
+    @else if $push != false {
+        // Add the new breakpoint to the map
+        $breakpoints: map-merge($breakpoints, ($name: $push)) !global;
+        // And re-call the mixin normally
+        @include respond-to($name) {
+            @content;
+        }
+    }
+  
+    // If the key doesn't exist in the map
+    // And there is no push
+    @else {
+    // Just warn the user
+        @warn "Unfortunately, no value could be retrieved from `#{$name}`. "
+            + "Please make sure it is defined in `$breakpoints` map. "
+            + "Or pass the media query as a second parameter to add it to the map.";
+    }
+}
+
+// mediaQueries info
+@mixin queryInfo($content) {
+    
+    @if $deploy == false {
+
+        @if $debug == true or $debug_mQueries == true {
+            content: $content;
+            left: 0;
+            bottom: 0;
+            padding: pem(10px);
+            display: block;
+            background-color: #ffffff;
+            position: fixed;
+            z-index: 200;
+        }
+
+    }
+}
+
+// media Query Dummies
+@mixin queryDummy($breakpoints) {
+    @each $breakPoint in map_keys($breakpoints) {
+        
+        ##{$breakPoint} {
+            left: 0;
+            top: 0;
+            font-size: 0;
+            line-height: 0;
+            overflow: hidden;
+            visibility: hidden;
+            display: none;
+            z-index: 100;                  
+            position: absolute;                  
+            
+            //debug
+            @if $debug == true {
+                
+                width: pem(100px);
+                height: pem(100px); 
+                background-color: #00ffff;
+                
+                &:after {
+                    padding: pem(10px);
+                    left: 0;
+                    top: 0;
+                    content: $breakPoint;
+                    font-size: 1rem;
+                    color: #ffffff;
+                    border: prem(2px);
+                    display: block;
+                    position: absolute;
+                    background-color: #000000;
+                }
+                
+            }
+            
+        }
+    }
+}
+
+

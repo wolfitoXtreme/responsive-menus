@@ -1,0 +1,294 @@
+html {
+    height: 100%;
+    font: #{pem(nth($fSize_default, 1))}/#{nth($fSize_default, 2)} $fFamily_default;
+    //overflow-y: scroll;
+}
+
+//css reset
+body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, figure, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    font-family: inherit;
+    vertical-align: baseline;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: "";
+}
+
+blockquote, q {
+    quotes: "" "";
+}
+
+body {
+    height: 100%;
+    color: $fColor_default;
+    background-color: #ffffff;
+    //overflow: hidden;
+    
+    //@include transition(all, $default_speed, ease-in, 0ms);
+}
+
+/*all elements boxsizing*/
+body * {
+    box-sizing: border-box;
+    //fix for jumpie transition
+    backface-visibility: hidden;
+}
+
+//no highlighting
+input, textarea, button, select, a {
+    
+    &:link, &:visited, &:hover, &:active, &:focus {
+        outline: 0;
+        outline-style: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        //-webkit-user-modify: read-write-plaintext-only;
+    }
+}
+
+/*HTML5 tags*/
+header, section, footer, aside, nav, main, article, figure {
+    display: block;
+} 
+
+/*Titles*/
+h1 { 
+    font-size: pem(24px);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: pem(20px);
+    font-weight: bold;
+    letter-spacing: -0.074em;
+    text-transform: uppercase;
+}
+
+/*strong*/
+strong {
+    font-weight: bold;
+}
+
+/*readable hide*/
+.hide {
+    @include hide();
+}
+
+
+/*Paraghraps*/
+p {
+    padding-bottom: 10px;
+}
+
+/*Lists*/
+
+/*Ordered lists*/
+
+address {
+    font-style: normal;
+}
+
+/*rulers*/
+hr {
+    display: none;
+}
+
+/*tables*/
+
+/*Forms*/
+input[type=text], input[type=password], select, textarea {
+    
+    $local_fSize: nth($fSize_formField, 1);
+
+    left: 0;
+    padding: $field_padding;
+    height: $field_height;
+    font: normal #{pem(nth($fSize_formField, 1))}/#{nth($fSize_formField, 2)} $fFamily_default;
+    color: nth($field_color, 1);
+    border: nth($field_borderWidth, 1) solid nth($field_borderColor, 1);
+    border-radius: $field_borderRadius;
+    position: relative;
+    background-color: nth($field_bgColor, 1);
+    
+    //transitionProps($duration, $timingFunction, $delay, $properties:all)
+    @include transitionProps($default_speed, ease-in, 0ms, (
+        background-color, border-color, box-shadow
+    ));
+    
+    
+    &:hover {
+        border-color: nth($field_borderColor, 2);
+    }
+    
+    &:focus {
+        outline-style: none;
+        border-color: nth($field_borderColor, 2);
+        background-color: nth($field_bgColor, 2);
+        box-shadow: $field_shadow;
+    }
+
+    //empty fields
+    &.emptyField {
+        color: nth($field_color, 2);
+    }
+
+}
+
+select {
+
+    $image: 'select.png';
+    $local_fSize: nth($fSize_formField, 1);
+    
+    //icon
+    //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+    //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+    $iconSettings: backgroundImageSettings($image, $stretchTo: 30%, $base: $local_fSize, $units: 'px');
+    
+    $padding: 
+        nth($select_padding, 1)
+        (nth($select_padding, 2) + nth($iconSettings, 2))
+        nth($select_padding, 3)
+        nth($select_padding, 4)
+    ;
+    
+    padding: $padding;
+    //height: pem($field_height);
+    position: relative;
+    appearance: none;
+    background: setBkgImage(nth($field_bgColor, 1), $image, right center, no-repeat);
+    background-origin: border-box;
+    background-size: nth($iconSettings, 2) auto;
+    
+    // explorer
+    &::-ms-expand {
+        display: none;
+    }
+    
+    // @include layoutPaint(#ff0000, $forceDebug: true);
+    
+    //select image (no SVG, no appearance fallback)  
+    // .no-js &,
+    // .no-appearance & {
+    //     padding-right: nth($select_padding, 2); 
+    //     background-image: none;
+    //     box-sizing: menulist;
+    // }
+    
+    option {
+        padding: 0 nth($field_padding, 2) 0 nth($field_padding, 4);
+    }
+}
+
+/*Buttons*/
+.submitButton {
+    
+    //submitButton03($padding, $width, $height, $image, $defaultColor, $color01, $color02, $hdefaultColor, $hcolor01, $hcolor02, $stop01, $stop02, $borderRadius, $display, $isButton, $base: $fSize_base)
+    @include submitButton01(
+        0 20px 0 20px, //$padding
+        auto, //$width
+        $button_height, //$height
+        none, //$image
+        $button_Color, //$defaultColor
+        darken($button_Color, 15%), //$color01
+        $button_Color, //$color02
+        darken($button_Color, 10%), //$hdefaultColor
+        darken($button_Color, 25%), //$hcolor01
+        darken($button_Color, 10%), //$hcolor02
+        20%, //$stop01
+        100%, //$stop02
+        6px, //$borderRadius
+        inline-block, //$display
+        false //$isButton
+    );
+
+    &.unactive {
+        
+        $button_Color: lighten($button_Color, 15%);
+
+        //simpleGradientFill($direction, $defaultColor, $color-stops...)
+        @include simpleGradientFill(
+            0deg, 
+            $button_Color, //$defaultColor
+            darken($button_Color, 15%) //$color01
+            20%, //$stop01
+            $button_Color //$color02
+            100% //$stop02                
+        );
+        
+        &:hover {
+            transform: none; 
+        }
+
+    }
+
+}
+
+  
+/*Links*/
+a:link { 
+    color: nth($linkColor_default, 1);
+}
+    
+a:visited {
+    color: nth($linkColor_default, 1);
+  } 
+    
+a:hover, a:active {
+    color: nth($linkColor_default, 2);
+}
+
+/*images*/
+img {
+    display: block;
+}
+
+/*Clear floats*/
+
+
+/*tester*/
+.tester {
+
+    $bgColor: #ececec;
+
+    margin-top: 20px;
+    padding: 10px 20px 10px;
+    text-align: center;
+    border: 1px solid darken($bgColor, 15%);
+    border-radius: 2px;
+    background-color: $bgColor;
+
+    p{
+        padding-bottom: 4px;
+        font-size: pem(12px);
+    }
+
+    select {
+        margin-top: 6px;
+        vertical-align: middle;
+    }
+
+    .submitButton {
+        margin-top: 6px;
+        vertical-align: middle;
+    }
+
+}

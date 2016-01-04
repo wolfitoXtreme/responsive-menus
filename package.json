@@ -1,0 +1,27 @@
+{
+  "name": "responsive-menus",
+  "version": "1.0.0",
+  "description": "Responsive menus",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "CESAR CANDELA",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.9.11",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-cache": "^0.3.0",
+    "gulp-clean": "^0.3.1",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-copy": "0.0.2",
+    "gulp-uglify": "^1.4.2",
+    "imagemin-jpeg-recompress": "^4.3.0",
+    "imagemin-pngquant": "^4.2.0",
+    "imagemin-svgo": "^4.1.2",
+    "merge-stream": "^1.0.0",
+    "run-sequence": "^1.1.4"
+  }
+}

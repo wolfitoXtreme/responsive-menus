@@ -1,0 +1,234 @@
+////////////////////
+//SASS FUNCTIONS
+////////////////////
+
+// get even number
+@function getEven($number) {
+    @return strip-units($number) % 2 == 0;
+}
+
+// convert to even number
+@function setEven($number) {
+    @if getEven($number) == false {
+        @return $number - 1;
+    }
+    @else {
+        @return $number
+    }
+}
+
+// get integer
+@function getInt($number) {
+    @return strip-units($number) % 1 == 0;
+}
+
+// convert to integer
+@function setInt($number) {
+    @if getInt($number) == false {
+        @return round($number);
+    }
+    @else {
+        @return $number
+    }
+}
+
+// convert to string
+@function to-string($value) {
+    @return inspect($value);
+}
+
+// strip units
+@function strip-units($number) {
+    @return $number / ($number * 0 + 1);
+}
+
+// convert pixels to em
+@function pem($pxVal, $base: $fSize_base) {
+    
+    $pxVal: strip-units($pxVal);
+    $base: strip-units($base);
+
+    @return $pxVal / $base * 1em;
+}
+
+// convert pixels to rem
+@function prem($pxVal, $base: $fSize_base) {
+    $pxVal: strip-units($pxVal);
+    $base: strip-units($base);
+    
+    @return $pxVal / $base * 1rem;
+}
+
+// convert em/rem to pixels
+@function emp($f_sizeVal, $base: $fSize_base) {
+  $f_sizeVal: strip-units($f_sizeVal);
+  $base: strip-units($base);
+
+  @return $base * $f_sizeVal * 1px;
+}
+
+// convert em to rem
+@function emrem($f_sizeVal) {
+    $f_sizeVal: strip-units($f_sizeVal);
+
+    @return $f_sizeVal * 1rem;
+}
+
+// center in textLine
+@function centerInLine($f_size, $f_lHeight, $box_height) {
+    
+    // get text middle
+    $textMiddle: ($f_size * $f_lHeight) / 2;
+
+    // get box middle
+    $boxMiddle: $box_height / 2;
+
+    @return ($textMiddle - $boxMiddle);
+}
+
+// replace in string
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+  
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+  
+    @return $string;
+}
+
+// set background image
+@function setBkgImage($bkgColor, $image, $imagePos, $imageRepeat){
+    
+    $bkgImage: null;
+    
+    @if ($bkgColor and $imagePos and $imageRepeat) {
+        $bkgImage: unquote($bkgColor + ' url(' + image-url($image, true, false) + ') ' +  $imagePos + ' ' + $imageRepeat);
+    }
+    @else {
+        $bkgImage: unquote('url(' + image-url($image, true, false) + ')');
+    }
+    //$bkgImage: unquote('url(..' + image-url($image, true, false) + ')');
+    
+    @return $bkgImage;
+}
+
+// background Image Settings
+@function backgroundImageSettings(
+    $image, $stretchTo: 100%, $sprite_width: null, $sprite_height: null, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px'
+) {
+        
+    $width: null;
+    $height: null;
+    
+    $image_width: image-width($image);
+    $image_height: image-height($image);
+    
+        
+    //current sprite measures
+    @if $sprite_width != null {//uneven sprites
+        $sprite_width: $sprite_width;
+        $sprite_height: $sprite_height;
+        
+        $unevenBkg_stretch: stretchImage($sprite_width, $sprite_height, $stretchTo);
+
+        //set background size and position
+        $bkg-size: getPercentageFrom($image_width * ($stretchTo / 100), nth($unevenBkg_stretch, 1));
+        
+    }
+    @else {//even sprites
+        $sprite_width: $image_width;
+        $sprite_height: $image_height;
+    }
+    
+    //sprite left
+    @if $sprite_left != 0% {
+        $sprite_left: percentage($sprite_left / ($image_width - $sprite_width));
+    }
+           
+    //px units
+    @if $units == 'px' {
+        
+        //stretch sprite
+        $stretchTo: strip-units($stretchTo);
+        $stretch: stretchImage($sprite_width, $sprite_height, $stretchTo);
+        
+        $width: nth($stretch, 1) * 1px;
+        $height: nth($stretch, 2) * 1px;
+    }
+    
+    //em units
+    @if $units == 'em' {
+        
+        //stretch sprite
+        $stretchTo: strip-units($stretchTo);
+        $stretch: stretchImage($sprite_width, $sprite_height, $stretchTo);
+        
+        $width: pem(nth($stretch, 1), $base);
+        $height: pem(nth($stretch, 2), $base);
+    }
+
+    //percentage
+    @if $units == '%' {
+        
+        //stretch sprite
+        $stretchTo: getPercentageFrom($sprite_width, $stretchTo);
+
+        $stretch: stretchImage($sprite_width, $sprite_height, $stretchTo);
+        $width: $stretchTo;
+        $height: getPercentageFrom($sprite_height, $sprite_width);        
+        $height: ($height / 100%) * $width;
+        
+        //$px_stretch: stretchImage($sprite_width, $sprite_height, 100);
+        //$px_width: nth($px_stretch, 1) * 1px;
+        //$px_height: nth($px_stretch, 2) * 1px;
+        
+    }
+    
+
+    
+    
+    @return($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height);
+
+
+}
+
+// get unitless percentage
+@function getPercentageFrom($valueA, $valueB) {
+    
+    $percentage: percentage(strip-units($valueA)/strip-units($valueB));
+    
+    @return ($percentage);
+}
+
+// get proportional size
+@function getProportionalSize($value, $stretch) {
+    
+    $proportionalSize: ($value * strip-units($stretch)) / 100;
+    
+    @return ($proportionalSize);
+}
+
+// stretch by percentage
+@function stretchImage($width, $height, $percentage) {
+    
+    $s_width: round( (strip-units($width) * $percentage) / 100 );
+    $s_height: round( (strip-units($height) * $percentage) / 100 );
+    
+    @return ($s_width, $s_height);
+}
+
+// get column width
+@function columnWidth($colWidth, $gap, $colNumber) {
+    @return (($colWidth + $gap) / $colNumber) - $gap;
+}
+
+// get inner width
+@function innerWidth($width, $padding, $border) {
+    @return $width - (nth($padding, 2) +  nth($padding, 4) + nth($border, 2) + nth($border, 4));
+}
+
+// get inner height
+@function innerHeight($height, $padding, $border) {
+    @return $height - (nth($padding, 1) +  nth($padding, 3) + nth($border, 1) + nth($border, 3));
+}

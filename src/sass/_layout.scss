@@ -1,0 +1,103 @@
+/*///////////////////////////////*/    
+/*/////////LAYOUT////////////*/
+/*///////////////////////////////*/
+
+#container {
+    margin: 0 auto;
+    width: $container_width;
+    height: 100%;
+    display: table;
+    table-layout: fixed;
+    position: relative;
+    
+    @include layoutPaint(#ff0ff0);
+}
+    
+#header {
+    
+    margin: $header_margin;
+    padding: $header_padding;
+    width: $header_width;
+    height: $header_height;
+    border-bottom: nth($header_borderWidth, 3) solid #999c97;
+    position: relative;
+    z-index: 10;
+
+    @include layoutPaint(#19d6dd);    
+    
+    
+    #headerSet {
+
+        margin: 0 auto;
+        padding: $headerSet_padding;
+        width: $header_width;
+        max-width: pem($headerSet_maxWidth);
+        height: $headerSet_height;
+        position: relative;
+
+        &:after {
+            @include clearFix;
+        }
+        
+        @include layoutPaint(#b73bbc);
+    }
+    
+}
+    
+#content {
+    width: $content_width;
+    max-width: pem($content_maxWidth);
+    height: 100%;
+    text-align: left;
+    clear: both;
+    z-index: 5;
+    position: relative;
+    display: table-row;
+
+
+    @include layoutPaint(#ff0000);
+
+
+}
+    
+    /*nav column*/
+
+    /*main*/
+    #main {
+        
+        margin: 0 auto;
+        padding: $main_padding;
+        width: $main_width;
+        max-width: pem($main_maxWidth);
+        font-size: 1em;
+        position: relative;
+        
+        @include layoutPaint(#cccccc);
+    
+    }
+
+    /*sideBar column*/
+
+#footer {
+   
+    width: $footer_width;
+    height: $footer_height;
+    position: relative;
+    border-top: nth($footer_borderWidth, 1) solid #999c97;
+    
+    @include layoutPaint(#ff06eb);
+    
+    
+    #footerSet {
+        margin: 0 auto;
+        padding: $footerSet_padding;
+        width: $footer_width;
+        max-width: pem($footer_maxWidth);
+        height: auto;
+        position: relative;
+
+        @include layoutPaint(#fff000);
+
+    }
+
+}

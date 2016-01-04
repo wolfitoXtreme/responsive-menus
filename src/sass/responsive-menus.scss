@@ -1,0 +1,919 @@
+/*!@license Copyright (c) 2015 Cesar Candela
+* www.cssguy4hire.com 
+*/
+
+// DEFAULT FUNCTIONS AND MIXNINS
+@import 'functions';
+@import 'mixins';
+
+// setup
+@import 'setup';
+
+// DEFAULT STYLES
+@import 'default';
+
+// LAYOUT
+@import 'layout';
+
+/*////////////////////////////////*/
+/*////////////ELEMENTS////////////*/
+/*////////////////////////////////*/
+
+// HEADER
+@import 'header';
+
+// FOOTER
+@import 'footer';
+
+/*tester*/
+.tester {
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    #bp_output {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dotted lighten(#000000, 70%);
+        font-size: 0.88em;
+
+        strong {             
+            text-transform: uppercase;
+        }
+
+        #bp_value {
+            padding: 3px 5px 3px;
+            font-size: 0.78em;
+            vertical-align: 0.22em;
+            color: #ffffff;
+            line-height: 1;
+            border-radius: 3px;
+            display: inline-block;
+            background-color: $fColor_default;
+        }
+    }
+
+}
+
+/*////////////LAYOUT////////////*/
+
+// redefine default layout
+
+$header_borderWidth: 0 0 40px 0;
+$headerSet_padding: 
+    (nth($headerSet_padding, 1) + 20px)
+    nth($headerSet_padding, 2)
+    nth($headerSet_padding, 3)
+    nth($headerSet_padding, 4)
+;
+$navColumn_padding: 
+    nth($main_padding, 1) 
+    0 
+    nth($main_padding, 3) 
+    0
+;
+$navColumn_width: 200px;
+$sideBar_padding: $navColumn_padding;
+$sideBar_width: $navColumn_width;
+$footer_borderWidth: 40px 0 0 0;
+
+/*header*/
+#header {
+    border-bottom-width: nth($header_borderWidth, 3);
+
+    #headerSet {
+        padding: $headerSet_padding;
+    }
+}
+
+/*ContentSet*/
+#contentSet {
+    margin: 0 auto;
+    padding-right: nth($main_padding, 2);
+    padding-left: nth($main_padding, 4);
+    width: $content_width;
+    max-width: pem($content_maxWidth);
+}
+
+
+    /*Main*/
+    #main {
+        width: calc(100% - #{pem($navColumn_width + $sideBar_width)});
+        float: left;
+    }   
+
+    /*nav column*/
+    #content #navColumn {
+
+        // margin: 0 0 0 pem(-$navColumn_width);
+        padding: $navColumn_padding;
+        width: pem($navColumn_width);
+        float: left;
+        z-index: 2;
+        
+        //@include hide();
+        @include layoutPaint(#94ca27);
+    }
+        
+        
+    /*sideBar column*/
+    #content #sideBar {
+
+        padding: $sideBar_padding;
+        width: pem($sideBar_width);
+        float: left;
+        z-index: 2;
+
+        @include layoutPaint(#f1ad09);
+    }
+
+// footer
+#footer {
+    border-top-width: nth($footer_borderWidth, 1);
+}
+
+
+/*////////////HEADER////////////*/
+
+/*main menu*/
+#header #mainMenu {
+    
+    $mainMenu_padding: 0 0 0 0;
+    $mainMenu_height: nth($header_borderWidth, 3);
+    $mainMenu_width: auto;
+
+    $item_padding: 0 10px 0 10px;
+    $item_fSize: 15px;
+    $item_lHeight: 1.1;
+    $item_middle: 
+        -(centerInLine(
+            $item_fSize, 
+            $item_lHeight, 
+            $mainMenu_height
+        ));
+    $item_height: innerHeight($mainMenu_height, $mainMenu_padding, 0 0 0 0);
+    $item_sep: 0;
+    $item_bgColor: transparent rgba(#000000, 0.55);
+
+
+    //bullet
+    $bullet_gap: 2px;
+    $bulletWidth: 0.5em;
+    $bulletHeight: $bulletWidth;
+
+    bottom: -$mainMenu_height;
+    padding: $mainMenu_padding;
+    width: $mainMenu_width;
+    height: $mainMenu_height;
+    z-index: 10;
+    display: block;
+    position: absolute;
+    
+    @include layoutPaint(#526e69, $forceDebug: false);
+    
+        
+    ul {
+        padding: 0;
+        height: $item_height;
+        position: relative;
+    }
+    
+
+    li {        
+        padding: 0;
+        height: $item_height;
+        font-size: 1em;
+        float: left;
+        background-color: transparent;
+        
+        
+        @include layoutPaint(#ff0000, $forceDebug: false);
+        
+        &:first-child {
+            a:link, a:visited {
+                border-left: 1px solid #ffffff;
+            }
+        }
+    
+        //Default        
+        a:link, a:visited {
+
+            padding: $item_padding;
+            height: $item_height;
+            font: normal #{$item_fSize}/$item_lHeight $fFamily_default;
+            letter-spacing: -0.035em;
+            // text-transform: uppercase;
+            text-decoration: none;
+            color: #ffffff;
+            display: block;
+            z-index: 2;
+            border-right: 1px solid #ffffff; 
+            position: relative;
+            
+            @include layoutPaint(#000fff);            
+            @include transitionProps(350ms, ease-in, 0ms, (background-color));
+            
+        }
+        
+        a:hover, a:active {
+            z-index: 10;
+            background-color: nth($item_bgColor, 2);
+            
+            @include layoutPaint(#00f00f);
+            
+            &:after {
+            }
+            
+        }
+    
+        a:link strong, a:visited strong {
+            padding-top: $item_middle;
+            font-weight: normal;
+            display: block;
+            position: relative;
+            
+            @include layoutPaint(#f33232);
+        }
+        
+        a:hover strong, a:active strong {
+        }
+            
+    }
+
+    
+}
+
+/*header menu*/
+#header #headerMenu {
+
+    $hMenu_height: nth($headerSet_padding, 1);
+    $hMenu_fSize: 12px;
+    $hMenu_padding: 
+        -(centerInLine(
+            $hMenu_fSize, 
+            1.1, 
+            $hMenu_height
+        )) 
+        0 
+        0 
+        0
+    ;
+    $hMenu_linkColor: $fColor_default nth($linkColor_default, 1);
+
+    padding: $hMenu_padding;
+    left: nth($headerSet_padding, 4);
+    top: 0;
+    height: $hMenu_height;
+    position: absolute;
+    z-index: 30;
+    
+    @include layoutPaint(#ff00c0, $forceDebug: false);
+    
+    ul {
+        padding: 0;
+        position: relative;
+    }
+    
+    
+    li {
+        
+        $local_fSize: 1em;
+        $padding: 0 10px 0 10px;
+
+        padding: $padding;
+        font-size: $local_fSize;
+        border-right: 1px dotted nth($hMenu_linkColor, 1);
+        float: left;
+        position: relative;
+
+        @include layoutPaint(#13c634);
+        
+        a:link, a:visited {
+            
+            padding: 0;
+            font: normal #{$hMenu_fSize}/1.1 $fFamily_default;
+            color: nth($hMenu_linkColor, 1);
+            text-decoration: none;
+            display: block;
+            position: relative;
+            
+            @include layoutPaint(#000000);
+             
+        }
+        
+        a:hover, a:active {
+            color: nth($hMenu_linkColor, 2);            
+        }
+        
+        
+        &:first-child {
+            border-left: 1px dotted nth($hMenu_linkColor, 1);
+        }
+        
+    }
+
+
+}
+
+/*responsive Menu (jQuery)*/
+#responsiveMenu {
+    
+    $rMenu_bgColor: #000000 #1b1b1b #3a3a3a;
+
+    $local_fSize: 0.78em;
+    $item_lHeight: 1.1;
+    $item_padding: 16px 15px 16px 15px;
+    $item_border: 1px;
+
+    
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    display: none;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 10;
+    
+    //simpleGradientFill($direction, $defaultColor, $color-stops...)
+    @include simpleGradientFill(90deg, nth($rMenu_bgColor, 2), nth($rMenu_bgColor, 1) 0%, nth($rMenu_bgColor, 2) 8px, nth($rMenu_bgColor, 3) 100%);
+    
+    #rmWrapper {
+    }
+    
+    
+    h3, h5 {
+        
+        $bgColor: $rMenu_bgColor;
+        
+        padding: 6px 10px 4px;
+        font: normal 0.55em/1.1 $fFamily_default;
+        text-transform: uppercase;
+        color: #ffffff;
+        border-bottom: $item_border solid rgba(255, 255, 255, 0.3);
+
+        @include simpleGradientFill(90deg, darken(nth($bgColor, 2), 8), nth($bgColor, 1) 0%, darken(nth($bgColor, 2), 12%) 8px, darken(nth($bgColor, 3), 12%) 100%);
+
+    }
+    
+    ul {
+        padding: 0;
+    }
+    
+    li {
+        
+        padding: 0;
+        font-size: 0.78em;
+        line-height: $item_lHeight;
+    
+        
+        a {
+            padding: $item_padding;
+            font-family: $fFamily_default;
+            border-bottom: $item_border dotted rgba(255, 255, 255, 0.2);
+            display: block;
+
+            &:link, &:visited {
+                color: #ffffff;
+                text-decoration: none;
+            }
+            
+        
+            &:hover, &:active {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        strong {
+            font-weight: normal;
+        }
+        
+        ul {
+            $bgColor: $rMenu_bgColor;
+        
+            @include simpleGradientFill(90deg, lightnen(nth($bgColor, 2), 8), nth($bgColor, 1) 0%, lighten(nth($bgColor, 2), 5%) 8px, lighten(nth($bgColor, 3), 5%) 100%);
+        }
+        
+        li {
+            
+            $sm_fSize: 0.85em;
+            $sm_lHeight: 1.1;
+            
+            //bullet
+            $bulletWidth: 0.4em;
+            $bulletHeight: $bulletWidth;
+            $bullet_radius: $bulletWidth / 2;
+            $bullet_gap: 4px;
+            
+            font-size: $sm_fSize;
+            line-height: $sm_lHeight;
+            position: relative;
+
+            a { 
+                padding-left: calc(#{$bulletWidth} + #{nth($item_padding, 4) + $bullet_gap});
+                font-family: $fFamily_default;
+                font-weight: normal;
+                position: relative;
+
+                &:before {
+                    content: "";
+                    display: block;
+                    left: nth($item_padding, 4);
+                    top: calc(#{centerInLine(1em, $sm_lHeight, $bulletHeight)} + #{nth($item_padding, 1)});
+                    // top: calc(#{centerInLine(1em, $sm_lHeight, $bulletHeight)} + {nth($item_padding, 1)});
+                    width: $bulletWidth;
+                    height: $bulletHeight;
+                    position: absolute;
+                    background-color: #f0f0f0;                
+                }
+
+            }
+            
+        }
+        
+        // current
+
+    }
+    
+
+    
+    // social networks
+    #r_socialNetworks {
+        
+        //icon
+        //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+        //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+        $iconSettings: backgroundImageSettings('uMenu_snIcons.png', $stretchTo: 80%, $units: 'em');
+        $iconSprites_h: 6;
+        $iconSprites_v: 2;
+        $iconWidth: nth($iconSettings, 2) / $iconSprites_h;
+        $iconHeight: nth($iconSettings, 3) / $iconSprites_v;
+        $iconBkg_hInc: getPercentageFrom($iconWidth, nth($iconSettings, 2) - $iconWidth);
+        $iconBkg_vInc: getPercentageFrom($iconHeight, nth($iconSettings, 3) - $iconHeight);
+        $iconGap: 5px;
+        
+        
+        li {
+
+            // default GitHub
+            a:link, a:visited {
+                padding-left: calc(#{$iconWidth} + #{nth($item_padding, 4) + $iconGap});
+                position: relative;
+
+                
+                &:before {
+                    content: "";
+                    left: nth($item_padding, 4);
+                    top: calc(#{centerInLine(1em, $item_lHeight, $iconHeight)} + #{nth($item_padding, 1)});
+                    width: $iconWidth;
+                    height: $iconHeight;
+                    border-radius: $iconHeight / 2;
+                    display: block;
+                    text-indent: 200%;
+                    overflow: hidden;
+                    position: absolute;
+                    box-sizing: border-box;
+                    background: setBkgImage(transparent, nth($iconSettings, 1), nth($iconSettings, 4) $iconBkg_vInc, no-repeat);
+                    background-origin: border-box;
+                    background-size: (100% * $iconSprites_h) (100% * $iconSprites_v);
+     
+                }
+                
+            }
+
+            a:hover, a:active {
+                &:before {
+                    background-color: rgba(#000000, 0.5);
+                }
+            }
+
+        }
+        
+
+        // linkedIn
+        .linkedin {
+            
+            $spritePos: ($iconBkg_hInc * 1);
+            
+            a:link, a:visited {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+            a:hover, a:active {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+        }
+        
+        // CodePen
+        .codepen {
+            
+            $spritePos: ($iconBkg_hInc * 2);
+            
+            a:link, a:visited {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+            a:hover, a:active {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+        }
+
+        // Stack Overflow
+        .stackoverflow {
+            
+            $spritePos: ($iconBkg_hInc * 3);
+            
+            a:link, a:visited {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+            a:hover, a:active {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+        }
+
+        // Behance
+        .behance {
+            
+            $spritePos: ($iconBkg_hInc * 4);
+            
+            a:link, a:visited {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+            a:hover, a:active {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+        }
+        
+        // resume
+        .resume {
+            
+            $spritePos: ($iconBkg_hInc * 5);
+            
+            a:link, a:visited {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+            a:hover, a:active { 
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+        }
+
+        
+    }
+    
+}
+
+// responsive menu Icon
+
+// icon
+// backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+// @return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+$rmIconSettings: backgroundImageSettings('rmmenu_Icon.png', $units: 'px');
+$rmIconSprites_h: 4;
+$rmIconSprites_v: 1;
+$rmIconWidth: nth($rmIconSettings, 2) / $rmIconSprites_h;
+$rmIconHeight: nth($rmIconSettings, 3) / $rmIconSprites_v;
+$rmIconBkg_hInc: getPercentageFrom($rmIconWidth, nth($rmIconSettings, 2) - $rmIconWidth);
+$rmIconBkg_vInc: getPercentageFrom($rmIconHeight, nth($rmIconSettings, 3) - $rmIconHeight);
+$rmIconBkg_vInc: 0;
+
+$rmIcon_top: 0;
+$rmIcon_right: nth($headerSet_padding, 2);
+$rmIcon_gap: 6px;
+
+#rmmenu_Icon {
+    
+    $sprite_hInc: 0;
+    $sprite_vInc: 0;
+    
+    right: $rmIcon_right;
+    top: $rmIcon_top;
+    width: $rmIconWidth;
+    height: $rmIconHeight;
+    text-indent: 100%;
+    overflow: hidden;
+    position: absolute;
+    z-index: 200;
+    cursor: pointer;
+    opacity: 0.5;
+    display: none;
+    background: setBkgImage(transparent, nth($rmIconSettings, 1), ($rmIconBkg_hInc * $sprite_hInc) ($rmIconBkg_vInc * $sprite_vInc), no-repeat);
+    background-origin: border-box;
+    background-size: (100% * $rmIconSprites_h) (100% * $rmIconSprites_v);
+
+
+    @include transitionProps(350ms, ease-in, 0ms, (opacity));
+    @include layoutPaint(#2ab912, $forceDebug: true);
+    
+    &:hover, &:active {
+        opacity: 1;
+        // background-position: ($rmIconBkg_hInc * $sprite_hInc) ($rmIconBkg_vInc * $sprite_vInc); 
+    }
+
+    &.open {
+
+        $sprite_hInc: 1;
+        
+        background-position: ($rmIconBkg_hInc * $sprite_hInc) ($rmIconBkg_vInc * $sprite_vInc);
+
+    }
+
+    &.running {
+        animation: rmmenu_Icon_FX 800ms ease 0ms 1 forwards;
+    }
+    
+}
+
+/*Animation - rmmenu_Icon*/
+@include keyframes(rmmenu_Icon_FX) {
+    
+    0% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    
+
+    50% {
+        transform: scale(0, 0);
+        opacity: 0.6;
+    }
+    
+    100% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+
+/*responsive buttons*/
+#responsiveButtons {
+
+}
+
+/*////////////MAIN////////////*/
+
+/*////////////NAV COLUMN////////////*/
+
+#navColumn #navMenu {
+
+    $local_fSize: 0.88em;
+    $item_lHeight: 1.1;
+    $item_padding: 8px 10px 8px 10px;
+    $item_border: 0 0 1px 0;
+    $item_bgColor: rgba(#000000, 0.55) rgba(#000000, 0.75);
+
+    ul {
+
+        padding: 0;
+
+        li {
+
+            font-size: $local_fSize;
+            line-height: $item_lHeight;
+            border-bottom: nth($item_border, 3) solid #ffffff;
+
+            a:link, a:visited {
+                padding: $item_padding;
+                color: #ffffff;
+                text-decoration: none;
+                display: block;
+                background-color: nth($item_bgColor, 1);
+            }
+
+            a:hover, a:active {
+                background-color: nth($item_bgColor, 2);
+            }
+
+        }
+    }
+
+    // submenus
+    li ul {
+
+        $sItem_bgColor: rgba(#000000, 0.25) rgba(#000000, 0.55);
+        $sItem_padding: 
+            6px
+            nth($item_padding, 2)
+            6px
+            (nth($item_padding, 4) + 5px)
+        ;
+
+        border-top: nth($item_border, 3) solid #ffffff;
+        background-color: nth($sItem_bgColor, 1);
+
+        li {
+
+            border-bottom-style: dotted;
+
+            &:last-child {
+                border-bottom-style: none;
+            }
+
+            a:link, a:visited {
+                padding: $sItem_padding;
+                color: #ffffff;
+                text-decoration: none;
+                display: block;
+                background-color: nth($sItem_bgColor, 1);
+            }
+
+            a:hover, a:active {
+                background-color: nth($sItem_bgColor, 2);
+            }
+
+        }
+
+    }
+
+
+}
+
+/*////////////SIDEBAR COLUMN////////////*/
+
+
+/*////////////FOTER////////////*/
+
+/*footer menu*/
+#footer #footerMenu {
+
+    $fMenu_height: nth($footer_borderWidth, 1);
+    $fMenu_fSize: 0.88em;
+    $fMenu_lineHeight: 1.1;
+    $fMenu_padding: 0 0 0 0;
+    $fMenu_linkColor: #ffffff nth($linkColor_default, 1);
+
+    //bullet
+    $bullet_gap: 2px;
+    $bulletWidth: 0.38em;
+    $bulletHeight: $bulletWidth;
+
+    left: 0;
+    top: -(nth($footer_borderWidth, 1));
+    padding: $fMenu_padding;
+    width: $footer_width;
+    height: $fMenu_height;
+    position: absolute;
+    z-index: 10; 
+    
+    @include layoutPaint(#cbc011);
+    
+    ul {
+        padding: 0 0 0 nth($footerSet_padding, 4);
+
+        &:after {
+            @include clearFix;
+        }
+    }
+    
+    li {
+        
+        $local_fSize: 1em;
+        $padding: 
+            (
+                ($fMenu_height - (emp($fMenu_fSize) * $fMenu_lineHeight)) 
+            / 2)
+            0 
+            0 
+            6px
+        ;
+
+        padding: $padding;
+        font-size: $local_fSize;
+        float: left;
+        position: relative;
+
+        @include layoutPaint(#13c634);
+
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        
+        a:link, a:visited {
+
+            padding: 0 0 0 calc(#{$bulletWidth} + #{$bullet_gap});
+            font: normal #{$fMenu_fSize}/$fMenu_lineHeight $fFamily_default;
+            // text-transform: uppercase;
+            color: nth($fMenu_linkColor, 1);
+            text-decoration: none;
+            display: block;
+            position: relative;
+            
+            @include layoutPaint(#000000);
+            
+
+            &:before {
+                content: "";
+                top: centerInLine($local_fSize, $fMenu_lineHeight, $bulletHeight);
+                left: 0;
+                font-size: 1em;
+                width: $bulletWidth;
+                height: $bulletHeight;
+                border-radius: $bulletWidth/2;
+                display: block;
+                position: absolute;
+                // box-sizing: border-box;
+                background-color: nth($fMenu_linkColor, 1);
+            }
+
+            strong {
+                font-weight: normal;
+            }
+
+        }
+        
+        a:hover, a:active {
+            color: nth($fMenu_linkColor, 2);
+            //text-decoration: underline;
+            
+            &:before {
+                background-color: nth($fMenu_linkColor, 2);
+            }
+        }
+    
+        
+    }
+    
+
+}
+
+
+
+
+/*top*/
+#footer #top {
+    
+    //icon
+    //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+    //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+    $iconSettings: backgroundImageSettings('btt_arriba.png', $units: 'px');
+    $iconSprites: 1;
+    $iconWidth: nth($iconSettings, 2);
+    $iconHeight: nth($iconSettings, 3) / $iconSprites;
+    $iconBkg_inc: getPercentageFrom($iconHeight, nth($iconSettings, 3) - $iconHeight);
+    $icon_borderWidth: 3px;
+    
+    padding: 0;
+    width: $iconWidth;
+    height: $iconHeight;
+    right: nth($footerSet_padding, 2);
+    top: -(nth($footer_borderWidth, 1)) + ((nth($footer_borderWidth, 1) - $iconHeight) / 2);
+    text-indent: 200%;
+    position: absolute;
+    z-index: 20;
+    overflow: hidden;
+    white-space: nowrap;
+    
+    a:link, a:visited {
+        left: 0;
+        top: 0;
+        width: $iconWidth;
+        height: $iconHeight;
+        border-radius: $iconWidth / 2;
+        border: $icon_borderWidth solid #ffffff; 
+        display: block;
+        position: absolute;
+        background: setBkgImage(lighten(#000000, 18%), nth($iconSettings, 1), 0 0, no-repeat);
+        background-origin: border-box;
+        background-size: 100% auto;
+        
+        //@include layoutPaint(#00ffff);
+    }
+    
+    a:hover, a:active {
+        // border-color: lighten(#8b2f4e, 55%);
+        background-color: #dbb833;
+    }
+    
+}
+
+
+// MEDIAQUERIES
+@import 'mediaQueries';

@@ -1,0 +1,13 @@
+/*////////////nav column////////////*/
+
+#content #navColumn {
+
+    li {
+        //remove default bullets
+        @include removeDefaultList;
+    }
+}
+
+/*////////////main////////////*/
+
+

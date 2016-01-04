@@ -1,0 +1,127 @@
+@import 'functions';
+@import 'mixins';
+
+////////////////////
+//SASS VARS
+////////////////////
+
+$deploy: true !default;
+$debug: false !default;
+$debug_mQueries: false !default;
+
+// $deploy: false;
+// $debug: true;
+$debug_mQueries: true;
+
+// font families
+$fFamily_default: "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+$fFamily_title: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+// Font Sizes
+$fSize_base: 16px;
+$fSize_default: $fSize_base 1.3;
+$fSize_small: 11px 1.1;
+$fSize_title: 40px 0.9;
+$fSize_formField: 14px 1;
+
+// Colors
+$fColor_default: #212b2e;
+$linkColor_default: #7d2626, #185759;
+
+//forms
+$field_padding: 2px 8px 2px 8px;
+$field_height: 30px;
+$field_color: #000000 #747474;
+$field_borderWidth: 1px 1px 1px 1px;
+$field_borderColor: #d7d7d7 #5e717d;
+$field_borderRadius: 4px;
+$field_bgColor: #ffffff #ffffff;
+$field_shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+$select_padding: 3px 0px 3px 4px;
+$select_height: $field_height;
+
+// Buttons
+$fSize_button: 14px 1.1;
+$button_Color: #c3c3c3;
+$button_height: 30px;
+$button_fColor: #ffffff;
+$fFamily_button: $fFamily_default;
+
+// Animation speeds    
+$default_speed: 450ms; 
+
+// Responsive breakPoints
+$maxWidth: 1024px;
+$breakValues: (530px, 850px, 974px);
+
+$breakpoints: (
+    'x-small'               : '(max-width: #{pem(nth($breakValues, 1) - 1)})',
+    'small'                 : '(min-width: #{pem(nth($breakValues, 1))}) and (max-width: #{pem(nth($breakValues, 2) - 1)})',
+    'medium'                : '(min-width: #{pem(nth($breakValues, 2))}) and (max-width: #{pem(nth($breakValues, 3) - 1)})',
+    'large'                 : '(min-width: #{pem(nth($breakValues, 3))})'//,
+    // 'x-small-landscape'     : '(max-width: #{pem(nth($breakValues, 1) - 1)}) and (orientation: landscape)',
+    // 'small-landscape'       : '(min-width: #{pem(nth($breakValues, 1))}) and (max-width: #{pem(nth($breakValues, 2) - 1)}) and (orientation: landscape)',
+    // 'medium-landscape'      : '(min-width: #{pem(nth($breakValues, 2))}) and (max-width: #{pem(nth($breakValues, 3) - 1)}) and (orientation: landscape)',
+    // 'large-landscape'       : '(min-width: #{pem(nth($breakValues, 3))}) and (orientation: landscape)'
+);
+
+
+// Layout
+$container_width: 100%;
+$container_height: 100%;
+$container_padding: 0 0 0 0;
+
+//Header
+$header_margin: 0 0 0 0;
+$header_padding: 0 0 0 0;
+$header_width: $container_width;
+$header_height: auto;
+// $header_minHeight: 50px;
+$header_borderWidth: 0 0 1px 0;
+    
+    // HeaderSet
+    $headerSet_padding:  10px 15px 12px 15px;
+    $headerSet_height: auto;
+    $headerSet_maxWidth: $maxWidth;
+
+// Content                                    
+$content_width: $container_width;
+$content_maxWidth: $maxWidth;
+
+    // ContentSet
+
+    // Nav column
+
+    // Main
+    $main_padding: 
+        22px
+        nth($headerSet_padding, 2)
+        15px
+        nth($headerSet_padding, 4)
+    ;
+    $main_width: 100%;
+    $main_maxWidth: $maxWidth;
+        
+    // SideBar column
+
+// Footer
+$footer_padding: 0 0 0 0;
+$footer_borderWidth: 1px 0 0 0;
+$footer_width: 100%;
+$footer_maxWidth: $maxWidth;
+$footer_height: auto;
+// $footer_minHeight: nth($footer_borderWidth, 1);
+    
+    // FooterSet
+    $footerSet_padding: 
+        14px
+        nth($headerSet_padding, 2)
+        10px
+        nth($headerSet_padding, 4)
+    ;
+    $footerSet_width: $footer_width;
+
+
+
+
+
