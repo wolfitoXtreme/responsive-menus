@@ -2,4 +2,4 @@
 
 Responsive menus built with jQuery and CSS media queries.
 
-Working example <a href="http://cssguy4hire.com/gitHubProjects/responsive-menus/" target="_blank">here</a>
+Working example <a href="http://code-samples.cssguy4hire.com/responsive-menus/" target="_blank">here</a>
